@@ -1,6 +1,6 @@
-host: "ssl0.ovh.net"
-from: "geoffrey.vaniscotte@chillycheesy.com"
-password: "cbc7hd9XmP66"
+host: ""
+from: ""
+password: ""
 port: 465
 ssl: true
 debug: true

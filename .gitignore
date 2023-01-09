@@ -1,0 +1,8 @@
+# Java
+.gradle
+.idea
+build
+
+# Modulo
+modulo-server
+src/main/resources/module.yml
