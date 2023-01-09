@@ -1,9 +1,13 @@
 package com.chillycheesy;
 
+import com.chillycheesy.events.SendMailEvent;
 import com.chillycheesy.exceptions.NoSessionSetException;
 import com.chillycheesy.mail.MailBuilder;
 import com.chillycheesy.mail.RessourceMailBuilder;
 import com.chillycheesy.mail.SimpleMailBuilder;
+import com.chillycheesy.modulo.ModuloAPI;
+import com.chillycheesy.modulo.events.EventContainer;
+import com.chillycheesy.modulo.events.EventManager;
 import com.chillycheesy.modulo.modules.Module;
 import com.chillycheesy.modulo.modules.ModuleAdapter;
 
@@ -12,6 +16,12 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class SmtpModule extends ModuleAdapter {
+    private EventManager eventManager;
+
+    @Override
+    protected <E extends Throwable> void onStart() throws E {
+        this.eventManager = ModuloAPI.getEvent().getEventManager();
+    }
 
     protected Session createSession() {
         final String host = defaultConfiguration.getString("host");
@@ -31,11 +41,12 @@ public class SmtpModule extends ModuleAdapter {
         return session;
     }
 
-    protected void sendMail(Message message) throws MessagingException {
+    protected void sendMail(Message message) throws MessagingException, IOException {
         Transport.send(message);
+        this.eventManager.emitEvent(this, new SendMailEvent(message));
     }
 
     protected void sendMail(MailBuilder mailBuilder) throws Exception {
-        Transport.send(mailBuilder.build());
+        this.sendMail(mailBuilder.build());
     }
 }
