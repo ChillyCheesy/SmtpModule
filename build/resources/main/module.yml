@@ -1,0 +1,6 @@
+name: SmtpModule
+version: 1.0.0
+authors: [chillycheesy]
+main: com.chillycheesy.SmtpModule
+dependencies: []
+softDependencies: []
