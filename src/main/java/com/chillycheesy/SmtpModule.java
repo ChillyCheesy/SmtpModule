@@ -5,28 +5,13 @@ import com.chillycheesy.mail.MailBuilder;
 import com.chillycheesy.mail.RessourceMailBuilder;
 import com.chillycheesy.mail.SimpleMailBuilder;
 import com.chillycheesy.modulo.modules.Module;
+import com.chillycheesy.modulo.modules.ModuleAdapter;
 
 import javax.mail.*;
 import java.io.IOException;
 import java.util.Properties;
 
-public class SmtpModule extends Module {
-    @Override
-    protected <E extends Throwable> void onLoad() throws E {
-    }
-
-    @Override
-    protected void onStart() throws Exception {
-        final MailBuilder mailBuilder = new RessourceMailBuilder().session(this.createSession());
-        mailBuilder.from("geoffrey.vaniscotte@chillycheesy.com").to("vaniscotte.geoffrey@hotmail.com", "eege@gmail.com").subject("Bite").content("mail.html").cc("benoit.bankaert@gmail.com");
-        this.sendMail(mailBuilder);
-    }
-
-    @Override
-    protected <E extends Throwable> void onStop() throws E {
-
-    }
-
+public class SmtpModule extends ModuleAdapter {
 
     protected Session createSession() {
         final String host = defaultConfiguration.getString("host");
